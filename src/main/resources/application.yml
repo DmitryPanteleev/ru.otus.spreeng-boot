@@ -1,0 +1,3 @@
+app:
+  path: "/root/IdeaProjects/lesson3/src/main/resources/testQuestions.csv"
+  count: 3
