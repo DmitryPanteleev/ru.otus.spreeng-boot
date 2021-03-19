@@ -1,6 +1,6 @@
 package ru.otus.spreengboot.homework.dpanteleev.lesson3.customException;
 
-public class UserNotHaveAnswerException extends NullPointerException {
+public class UserNotHaveAnswerException extends RuntimeException {
 
     /**
      * Пользователь не дал ответа

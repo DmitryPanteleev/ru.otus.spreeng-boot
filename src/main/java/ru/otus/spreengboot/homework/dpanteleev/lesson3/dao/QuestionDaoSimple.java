@@ -1,12 +1,15 @@
 package ru.otus.spreengboot.homework.dpanteleev.lesson3.dao;
 
 import org.apache.commons.csv.CSVRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.otus.spreengboot.homework.dpanteleev.lesson3.domain.Answer;
 import ru.otus.spreengboot.homework.dpanteleev.lesson3.domain.Question;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository("questionDaoSimple")
@@ -28,7 +31,7 @@ public class QuestionDaoSimple implements QuestionDao {
             try {
                 parseCSVFile(records.getCsvFile());
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage() + " " + Arrays.toString(e.getStackTrace()));
             }
         }
         return questionList;
@@ -40,7 +43,7 @@ public class QuestionDaoSimple implements QuestionDao {
             try {
                 parseCSVFile(records.getCsvFile());
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage() + " " + Arrays.toString(e.getStackTrace()));
             }
         }
         return questionList.size();
@@ -94,4 +97,5 @@ public class QuestionDaoSimple implements QuestionDao {
                 wrongAnswers,
                 correctAnswers);
     }
+    private Logger logger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
 }

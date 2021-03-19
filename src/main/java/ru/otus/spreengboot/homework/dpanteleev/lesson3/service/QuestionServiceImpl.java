@@ -10,6 +10,7 @@ import ru.otus.spreengboot.homework.dpanteleev.lesson3.domain.Answer;
 import ru.otus.spreengboot.homework.dpanteleev.lesson3.domain.Question;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @EnableConfigurationProperties(AppConfig.class)
@@ -28,19 +29,21 @@ public class QuestionServiceImpl implements QuestionService {
         this.offset = config.getCount();
     }
 
+    @Override
     public String getQuestionTextByNumber(int number) throws ArrayIndexOutOfBoundsException {
         if (number < 0 || number > dao.size()) {
             throw new ArrayIndexOutOfBoundsException("Нет такого номера вопроса");
         }
         return dao.getQustionsList().get(number).getQuestion();
     }
+    @Override
     public String getAnswerTextByNumber(int number) throws ArrayIndexOutOfBoundsException {
         if (number < 0 || number > dao.size()) {
             throw new ArrayIndexOutOfBoundsException("Нет такого номера вопроса");
         }
         return dao.getQustionsList().get(number).getUserAnswer().getAnswer();
     }
-
+    @Override
     public void setAnswer(Answer answer, int number) {
         dao.getQustionsList().get(number).setUserAnswer(answer);
         logger.info("Записан ответ: " + answer.toString());
@@ -49,6 +52,7 @@ public class QuestionServiceImpl implements QuestionService {
     /**
      * Печатает результат
      */
+    @Override
     public void printResult() {
         for (Question q :
                 dao.getQustionsList()) {
@@ -64,11 +68,11 @@ public class QuestionServiceImpl implements QuestionService {
                 }
                 System.out.println();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e.getMessage() + " " + Arrays.toString(e.getStackTrace()));
             }
         }
     }
-
+    @Override
     public List<Answer> randomAnswerList(int number) {
         List<Answer> list = new ArrayList<>();
         list.addAll(dao.getQustionsList().get(number).getCorrectAnswers());
@@ -81,6 +85,7 @@ public class QuestionServiceImpl implements QuestionService {
      *
      * @return true если зачёт
      */
+    @Override
     public boolean isOffset() {
         int count = 0;
         for (Question q :
@@ -91,10 +96,10 @@ public class QuestionServiceImpl implements QuestionService {
         }
         return offset <= count;
     }
-
+    @Override
     public long size() {
         return dao.size();
     }
 
-    Logger logger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+    private Logger logger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
 }
